@@ -1,78 +1,59 @@
-let productos = []
+let students = []
 
-let telefono = {
-    id: 1,
-    nombre: 'Iphone X - Apple',
-    precio: 50000,
-    descripcion: 'Telefono con 128GB y cámara de 32megas.',
-    colores: ['blanco', 'rojo', 'negro'],
-    marca: 'apple'
-    // accesorios: {
-    //     cargador: true,
-    //     cable: false,
-    //     audifonos: false,
-    //     carcasa: true
-    // },
+let tabla = document.getElementById('tabla')
+function llenarTabla(){
+    tabla.innerHTML = ''
+    students.forEach((student, index)=>{
+        tabla.innerHTML += `
+            <tr>
+                <th scope="row">${index+1}</th>
+                <td>${student.name}</td>
+                <td>${student.course}</td>
+                <td>
+                    <button type="button" class="btn btn-primary">Editar</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger eliminar" id=${student.name}>
+                        Eliminar
+                    </button>
+                </td>
+            </tr>`
+    })
+
+    let deleteButtons = Array.from(document.getElementsByClassName('btn btn-danger eliminar'))
+    deleteButtons.forEach((button)=>{
+    button.addEventListener('click', (event)=>deleteUser(event.target.id))
+})
 }
 
-const addProduct = (id,nombre, precio, descripcion) => {
-    let producto = {
-        id: id,
-        nombre: nombre,
-        precio: precio,
-        descripcion: descripcion
+llenarTabla()
+
+let inputName = document.getElementById('name')
+let inputCourse = document.getElementById('course')
+let addButton = document.getElementById('add')
+
+addButton.addEventListener('click', addStudent)
+
+
+function addStudent(){
+    let student = {
+        name: inputName.value,
+        course: inputCourse.value
     }
-    // verificar si ya existe en el array "productos" un elemento con el mismo id
-
-    productos.push(producto)
-
-    return productos
+    students.push(student)
+    llenarTabla()
 }
 
-addProduct(1,'Galaxy S20', 500000, 'Telefono muy bueno')
-addProduct(2,'Galaxy S21', 40000, 'Telefono muy malo')
-addProduct(3,'Galaxy S21 plus', 500000, 'Telefono  bueno')
-addProduct(4,'Galaxy Ace', 500000, 'Telefono malo')
-addProduct(5,'Galaxy', 600000, ' muy bueno')
+// let deleteButtons = Array.from(document.getElementsByClassName('btn btn-danger eliminar'))
+// deleteButtons.forEach((button)=>{
+//     button.addEventListener('click', (event)=>deleteUser(event.target.id))
+// })
 
-
-const getAllProducts = () => {
-    console.log(productos)
-}
-
-const getProductById = (id) => {
-    // modificar el método find. Que haga lo mismo, pero sin tener que ocupar el if
-    let elementoBuscado = productos.find((producto)=>{
-        if(producto.id===id){
-            return producto
-        }
-    })
-
-    return elementoBuscado
+function deleteUser(name){
+    students = students.filter((student)=>student.name!==name)
+    llenarTabla()
 }
 
 
-const getProductsByName = (nombre) => {
-    // Este método puede ser escrito en una línea, sin usar if
-    return productos.filter((producto)=>{
-        if(producto.nombre.includes(nombre)){
-            return producto
-        }
-        // if(producto.nombre.toLowerCase().includes(nombre.toLowerCase())){
-        //     return producto
-        // }
-    })
-}
-
-const getProductsByColor = () => {
-    //tarea
-}
 
 
-const deleteProduct = (parametros) => {
-    //código
-}
-
-const editProduct = (parametros) => {
-    //código
-}
